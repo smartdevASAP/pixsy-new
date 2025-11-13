@@ -170,6 +170,7 @@ function Feed() {
     localStorage.removeItem("authToken");
     localStorage.removeItem("username");
     localStorage.removeItem("email");
+    setDisplayUsername("");
     API.post("/users/logout", {}, { withCredentials: true });
     window.location.href = "/";
   };

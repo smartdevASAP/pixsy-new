@@ -167,7 +167,7 @@
 import { useEffect, useState } from "react";
 import { useApp } from "../context/postContext";
 import { useApp1 } from "../context/userContext";
-import { Share2, Edit3, Menu, LogOut, Users, Heart } from "lucide-react";
+import { Share2, Menu, LogOut, Users, Heart } from "lucide-react";
 import toast from "react-hot-toast";
 import API from "../api/axios";
 // import dayjs from "dayjs";
