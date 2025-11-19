@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 export default function Overview() {
   const stats = [
     {
-      title: "Total Users",
+      title: "Total users",
       value: 1523,
       icon: <Users className="w-6 h-6 text-blue-600" />,
       color: "from-blue-100 to-blue-50",
