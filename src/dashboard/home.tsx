@@ -267,7 +267,7 @@ function Home() {
     <>
       {/* --- Glassy Top Navbar --- */}
       <div className="sm:hidden fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-white/40 border-b border-gray-200 flex items-center justify-between px-4 py-3 shadow-sm">
-        <p className="font-semibold text-gray-800 text-lg">FriendsApp</p>
+        <p className="font-semibold text-gray-800 text-lg">Friends App</p>
         <div className="relative">
           <button
             className="p-2 rounded-full hover:bg-gray-100 transition"
