@@ -301,6 +301,48 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
 
   //---------------------- REGISTER ----------------------//
+  // const sendToServer = async (): Promise<void> => {
+  //   try {
+  //     const payload = {
+  //       username,
+  //       firstname,
+  //       lastname,
+  //       phone,
+  //       birthDay,
+  //       password,
+  //       confirmPassword,
+  //       pronouns,
+  //       confirmPhone,
+  //       email,
+  //       bio,
+  //     };
+
+  //     const res = await API.post("/users/register", payload, {
+  //       withCredentials: true,
+  //     });
+
+  //     if (res.data.success) {
+  //       toast.success("Account created successfully 🎉");
+
+  //       // Save user info + token
+  //       localStorage.setItem("username", res.data.user.username);
+  //       localStorage.setItem("email", res.data.user.email);
+  //       localStorage.setItem("authToken", res.data.token);
+
+  //       // Redirect to dashboard
+  //       navigate("/dashboard/home");
+  //     } else {
+  //       toast.error(res.data.message || "Registration failed");
+  //     }
+  //   } catch (err: any) {
+  //     const msg =
+  //       err.response?.data?.message || err.message || "Registration error";
+  //     console.error(" Registration Error:", msg);
+  //     toast.error(msg);
+  //   }
+  // };
+  //register remade
+  //---------------------- REGISTER ----------------------//
   const sendToServer = async (): Promise<void> => {
     try {
       const payload = {
@@ -324,12 +366,11 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       if (res.data.success) {
         toast.success("Account created successfully 🎉");
 
-        // Save user info + token
+        // REMOVE ALL localStorage token saving.
+        // If you still want to save username/email for UI purposes:
         localStorage.setItem("username", res.data.user.username);
         localStorage.setItem("email", res.data.user.email);
-        localStorage.setItem("authToken", res.data.token);
 
-        // Redirect to dashboard
         navigate("/dashboard/home");
       } else {
         toast.error(res.data.message || "Registration failed");
@@ -343,14 +384,47 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   //---------------------- LOGIN ----------------------//
+  // const login = async (): Promise<void> => {
+  //   try {
+  //     const payload = {
+  //       emailToServer: loggingEmail,
+  //       passwordToServer: loggingPassword,
+  //     };
+
+  //     console.log("Login payload:", payload);
+
+  //     const res = await API.post("/users/login", payload, {
+  //       withCredentials: true,
+  //     });
+
+  //     if (res?.data?.success) {
+  //       toast.success("Logged in successfully 🔐");
+
+  //       // Save user info + token correctly
+  //       localStorage.setItem("email", res.data.user.email);
+  //       localStorage.setItem("username", res.data.user.username);
+  //       localStorage.setItem("authToken", res.data.token);
+
+  //       setActualUser(res.data.user);
+  //       navigate("/dashboard/home");
+  //     } else {
+  //       toast.error(res?.data?.message || "Login failed");
+  //     }
+  //   } catch (err: any) {
+  //     const errorMsg =
+  //       err.response?.data?.message || err.message || "Login failed";
+  //     console.error("Login error:", errorMsg);
+  //     toast.error(errorMsg);
+  //   }
+  // };
+  //login refactored
+  //---------------------- LOGIN ----------------------//
   const login = async (): Promise<void> => {
     try {
       const payload = {
         emailToServer: loggingEmail,
         passwordToServer: loggingPassword,
       };
-
-      console.log("Login payload:", payload);
 
       const res = await API.post("/users/login", payload, {
         withCredentials: true,
@@ -359,10 +433,12 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       if (res?.data?.success) {
         toast.success("Logged in successfully 🔐");
 
-        // Save user info + token correctly
+        // Keep these if you want to show username/email in the UI:
         localStorage.setItem("email", res.data.user.email);
         localStorage.setItem("username", res.data.user.username);
-        localStorage.setItem("authToken", res.data.token);
+
+        // ❌ Remove token storage (cookie already set)
+        // localStorage.setItem("authToken", res.data.token);
 
         setActualUser(res.data.user);
         navigate("/dashboard/home");
