@@ -30,14 +30,14 @@ export default function Posts() {
   const { setActualUser } = useApp1();
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [posting, setPosting] = useState<boolean>(false); // ← new state
 
-  // 🔥 Fetch posts from DB
+  // Fetch posts from DB
   const fetchPosts = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem("token");
+
       const res = await API.get("/post/allPosts", {
-        headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
 
@@ -82,6 +82,16 @@ export default function Posts() {
       console.error("Error deleting post:", err);
       toast.dismiss();
       toast.error("An error occurred while deleting");
+    }
+  };
+
+  // Wrapped handlePost to add spinner
+  const handlePostWithSpinner = async () => {
+    setPosting(true);
+    try {
+      await handlePost();
+    } finally {
+      setPosting(false);
     }
   };
 
@@ -132,11 +142,18 @@ export default function Posts() {
           </label>
 
           <button
-            onClick={handlePost}
+            onClick={handlePostWithSpinner}
             className="flex items-center gap-1 bg-blue-500 hover:bg-blue-600 text-white text-sm px-4 py-2 rounded-lg transition"
+            disabled={posting} // disable button while posting
           >
-            <Send size={15} />
-            Post
+            {posting ? (
+              <span className="animate-spin border-2 border-white border-t-transparent rounded-full w-5 h-5"></span>
+            ) : (
+              <>
+                <Send size={15} />
+                Post
+              </>
+            )}
           </button>
         </div>
       </div>

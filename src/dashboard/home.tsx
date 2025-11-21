@@ -196,30 +196,33 @@ function Home() {
   const [localCaption, setLocalCaption] = useState("");
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchPostsAndUser = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
-        const res = await API.get("/post/allPosts");
-        const res2 = await API.get("/users/me");
-        if (res.data.success && Array.isArray(res.data.posts)) {
-          setPosts(res.data.posts);
+        const postsRes = await API.get("/post/allPosts", {
+          withCredentials: true,
+        });
+        const userRes = await API.get("/users/me", { withCredentials: true });
+
+        if (postsRes.data.success && Array.isArray(postsRes.data.posts)) {
+          setPosts(postsRes.data.posts);
         } else {
-          console.error(" Failed to fetch posts:", res.data.message);
+          console.error("Failed to fetch posts:", postsRes.data.message);
         }
-        setActualUser(res.data);
-        if (res2.data.success) {
-          setDisplayUsername(res2.data.user.username);
-          setLocalCaption(res.data.bio);
+        if (userRes.data.success) {
+          setActualUser(userRes.data.user);
+          setDisplayUsername(userRes.data.user.username);
+          setLocalCaption(userRes.data.user.bio);
         }
       } catch (err) {
-        console.error(" Error fetching posts:", err);
+        console.error("Error fetching posts or user:", err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchPosts();
-  }, [setActualUser]);
+    fetchPostsAndUser();
+  }, []); // run only once on mount
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");

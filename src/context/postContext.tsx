@@ -134,9 +134,13 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // ---- (11) Fetch all posts
+
   const fetchAllPosts = async (): Promise<void> => {
     try {
-      const res = await API.get("/post/allPosts");
+      const res = await API.get("/post/allPosts", {
+        withCredentials: true, // crucial for sending cookies
+      });
+
       if (res.data.success && Array.isArray(res.data.posts)) {
         setPosts(res.data.posts);
       } else {
